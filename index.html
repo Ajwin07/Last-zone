@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>LAST ZONE v0.3</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101a20;color:#fff;font-family:Arial,sans-serif}#game{width:100%;height:100%;display:block;touch-action:none}
+#hud{position:fixed;inset:0;pointer-events:none}.panel{background:#071116c9;border:1px solid #ffffff2b;border-radius:10px;padding:9px 12px}
+#brand{position:absolute;top:12px;left:12px;font-weight:900;letter-spacing:3px;font-size:18px}#stats{position:absolute;right:12px;top:12px;text-align:right;font-size:12px;line-height:1.7}
+#status{position:absolute;top:68px;left:50%;transform:translateX(-50%);font-weight:bold;text-align:center;text-shadow:0 2px 8px #000;white-space:nowrap}
+#help{position:absolute;bottom:12px;left:12px;font-size:11px;line-height:1.5}#cross{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:23px;text-shadow:0 0 5px #000}
+#overlay{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:12px;overflow:auto;background:linear-gradient(135deg,#071216f2,#142d34ed)}
+#card{width:min(95vw,700px);max-height:96vh;overflow:auto;padding:20px;background:#101e24;border:1px solid #526a70;border-radius:17px}
+h1{font-size:32px;letter-spacing:4px;margin:0 0 3px}h2{font-size:14px;color:#d6ff55;margin:15px 0 8px}p,.note{font-size:12px;color:#b2c5c9;line-height:1.5}
+input{width:100%;padding:11px;border-radius:8px;border:1px solid #536c74;background:#091419;color:white;margin:6px 0}
+button{border:1px solid #536c74;border-radius:9px;padding:11px;background:#1b3038;color:white;font-weight:bold;cursor:pointer}
+button.selected{border:2px solid #d6ff55;background:#29403e}button.primary{background:#d6ff55;color:#172019;border:0;width:100%;margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.choice{text-align:left;min-height:60px}.choice b{display:block;color:#d6ff55;margin-bottom:4px}.choice small{color:#b6c7ca;font-weight:normal;line-height:1.3}
+#mobile{position:fixed;bottom:0;left:0;right:0;height:175px;display:none;pointer-events:none}.stick{position:absolute;bottom:20px;width:108px;height:108px;border-radius:50%;background:#ffffff1c;border:2px solid #ffffff66;pointer-events:auto;touch-action:none}.knob{width:42px;height:42px;border-radius:50%;background:#d6ff55bb;position:absolute;left:31px;top:31px}#move{left:18px}#look{right:18px}
+#fire,#use{position:absolute;pointer-events:auto;border-radius:50%;width:65px;height:65px;color:white;background:#d94d3dcc;border:2px solid #fff9;bottom:42px}#fire{right:138px}#use{right:66px;background:#4d9dcecc}
+@media(pointer:coarse){#mobile{display:block}#help{display:none}}@media(max-width:440px){#card{padding:14px}.grid{gap:6px}.choice{padding:8px;font-size:12px}h1{font-size:27px}}
+</style></head><body>
+<canvas id="game"></canvas>
+<div id="hud"><div id="brand" class="panel">LAST ZONE <span style="color:#d6ff55">/ 0.3</span></div>
+<div id="stats" class="panel">MAP <b id="mapname">—</b><br>PLAYERS <b id="players">1/20</b><br>HEALTH <b id="hp">100</b><br>AMMO <b id="ammo">30 / 90</b><br>KITS <b id="kits">1</b><br>THREATS <b id="threats">0</b></div>
+<div id="status">SURVIVE. DEFEND. STAY IN THE ZONE.</div><div id="cross">+</div>
+<div id="help" class="panel">WASD move · Mouse aim · Left click fire · Shift sprint · E use health kit · R reload</div></div>
+<div id="mobile"><div class="stick" id="move"><div class="knob"></div></div><div class="stick" id="look"><div class="knob"></div></div><button id="fire">FIRE</button><button id="use">HEAL</button></div>
+<div id="overlay"><div id="card">
+<h1>LAST ZONE</h1><div class="note">20-PLAYER SURVIVAL BATTLE · ANDROID + PC PROTOTYPE</div>
+<h2>1 · CHOOSE YOUR OPERATOR</h2><div class="grid" id="characters">
+<button class="choice selected" data-char="indian"><b>INDIAN ARMY</b><small>Camouflage, covered face, helmet and tactical vest</small></button>
+<button class="choice" data-char="russian"><b>RUSSIAN GANGSTER</b><small>Dark hood, mask and armored street gear</small></button>
+<button class="choice" data-char="greek"><b>ANCIENT GREEK</b><small>Bronze armor, crest, cape and shield</small></button>
+<button class="choice" data-char="seal"><b>USA SEAL</b><small>Full-covered modern special-operations gear</small></button></div>
+<h2>2 · CHOOSE YOUR MAP</h2><div class="grid" id="maps">
+<button class="choice selected" data-map="base"><b>MILITARY BASE</b><small>Fortified compound, barracks, watchtowers and supply yards. Defend against enemy players.</small></button>
+<button class="choice" data-map="deadcity"><b>DEAD CITY</b><small>Abandoned outbreak-zone city, ruined streets, wrecked cars and hostile zombies.</small></button></div>
+<label class="note">Player name</label><input id="name" value="Rookie" maxlength="16">
+<label class="note">Online server address (paste your hosted WSS address)</label><input id="server" value="ws://localhost:8080" placeholder="wss://your-server.onrender.com">
+<button class="primary" id="deploy">DEPLOY / START GAME</button>
+<p id="msg">Pickups: green medical crates restore health; yellow ammo crates refill reserve ammunition. Walk close and press E (or tap HEAL for a med kit).</p>
+<div class="note" id="error"></div></div></div>
+<script type="module" src="./game.js"></script></body></html>
